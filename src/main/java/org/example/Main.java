@@ -1,11 +1,13 @@
 package org.example;
 
 import org.example.datos.*;
-import org.example.modelo.empleados;
-import org.example.modelo.servicio;
+import org.example.modelo.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -167,7 +169,7 @@ public class Main {
                                         System.out.println("Ingrese la id del empleado a consultar:");
                                         String idEmpleadoConsulta = sc.nextLine();
                                         // Invocar el metodo para consultar el servicio
-                                        emp.consultarEmpleado(idEmpleadoConsulta);
+                                        empC.consultarEmpleado(idEmpleadoConsulta);
                                         break;
                                     case 3:
                                         // Actualizar empleado
@@ -187,7 +189,7 @@ public class Main {
                                             System.out.println("Ingrese la nueva fecha de ingreso del empleado (YYYY-MM-DD):");
                                             String nuevaFechaIngresoEmpleado = sc.nextLine();
                                             // Invocar el metodo para actualizar el servicio
-                                            emp.actualizarEmpleado(new empleados(idEmpleadoActualizar, nuevoNombreEmpleado, nuevoTelefonoEmpleado, nuevoCorreoEmpleado, nuevaDireccionEmpleado, nuevaFechaIngresoEmpleado));
+                                            empC.actualizarEmpleado(new empleados(idEmpleadoActualizar, nuevoNombreEmpleado, nuevoTelefonoEmpleado, nuevoCorreoEmpleado, nuevaDireccionEmpleado, nuevaFechaIngresoEmpleado));
                                             System.out.println("Servicio" + idEmpleadoActualizar+ "actualizado exitosamente.");
                                         }else {
                                             System.out.println("El servicio con ID " + idEmpleadoActualizar + " no existe.");
@@ -212,9 +214,9 @@ public class Main {
                                         System.out.print("ID de servicio a buscar: ");
                                         Integer buscarEmpleado = sc.nextInt();
                                         //invocar el metodo de buscar empleado por ID
-                                        if (!emp.buscarEmpleadoxid(buscarEmpleado).isEmpty()){
+                                        if (!empC.buscarEmpleadoxid(buscarEmpleado).isEmpty()){
                                             //recorrer la lista que devolvio el metodo buscarEmpleadoxid
-                                            emp.buscarEmpleadoxid(buscarEmpleado).forEach(empleados ->
+                                            empC.buscarEmpleadoxid(buscarEmpleado).forEach(empleados ->
                                                     System.out.println(empleados.getIdEmpleado() + "-" + empleados.getNombre() + "-" + empleados.getTelefono() + "-" + empleados.getCorreo() + "-" +
                                                             empleados.getDireccion() + "-" + empleados.getFechaIngreso()));
                                         }else{
@@ -248,21 +250,78 @@ public class Main {
                                 switch (opcionUsu) {
                                     case 1:
                                         // Agregar usuario
+                                        System.out.println("Agregar Usuario");
+                                        System.out.println("Ingrese la ID del usuario:");
+                                        Integer idUsuario = sc.nextInt();
+                                        System.out.println("Ingrese el nombre del usuario:");
+                                        String nombreUsuario = sc.nextLine();
+                                        System.out.println("Ingrese el telefono del usuario:");
+                                        String telefonoUsuario = sc.nextLine();
+                                        System.out.println("Ingrese la dirección del usuario:");
+                                        String direccionUsuario = sc.nextLine();
+                                        System.out.println("Ingrese el correo del usuario:");
+                                        String correoUsuario = sc.nextLine();
+                                        // Invocar el metodo para agregar el usuario
+                                        usuC.agregarUsuario(new usuarios(idUsuario, nombreUsuario, telefonoUsuario, direccionUsuario, correoUsuario));
+                                        System.out.println("Usuario " + idUsuario + " agregado exitosamente.");
                                         break;
                                     case 2:
                                         // Consultar usuario
+                                        System.out.println("Consultar Usuario");
+                                        System.out.println("Ingrese la id del usuario a consultar:");
+                                        String idUsuarioConsulta = sc.nextLine();
+                                        // Invocar el metodo para consultar el usuario
+                                        usuC.consultarUsuario(idUsuarioConsulta);
                                         break;
                                     case 3:
                                         // Actualizar usuario
+                                        System.out.println("Actualizar Usuario");
+                                        System.out.println("Ingrese la id del usuario a actualizar:");
+                                        Integer idUsuarioActualizar = sc.nextInt();
+                                        sc.nextLine(); // Limpiar el buffer
+                                        if (!usuC.buscarUsuariosxid(idUsuarioActualizar).isEmpty()) {
+                                            System.out.println("Ingrese el nuevo nombre del usuario:");
+                                            String nuevoNombreUsuario = sc.nextLine();
+                                            System.out.println("Ingrese el nuevo telefono del usuario:");
+                                            String nuevoTelefonoUsuario = sc.nextLine();
+                                            System.out.println("Ingrese la nueva dirección del usuario:");
+                                            String nuevaDireccionUsuario = sc.nextLine();
+                                            System.out.println("Ingrese el nuevo correo del usuario:");
+                                            String nuevoCorreoUsuario = sc.nextLine();
+                                            // Invocar el metodo para actualizar el usuario
+                                            usuC.actualizarUsuario(new usuarios(idUsuarioActualizar, nuevoNombreUsuario, nuevoTelefonoUsuario, nuevaDireccionUsuario, nuevoCorreoUsuario));
+                                            System.out.println("Usuario " + idUsuarioActualizar + " actualizado exitosamente.");
+                                        } else {
+                                            System.out.println("El usuario con ID " + idUsuarioActualizar + " no existe.");
+                                        }
                                         break;
                                     case 4:
                                         // Eliminar usuario
+                                        System.out.println("Eliminar Usuario");
+                                        System.out.println("Ingrese la id del usuario a eliminar:");
+                                        String idUsuarioEliminar = sc.nextLine();
+                                        // Invocar el metodo para eliminar el usuario
+                                        usuC.eliminarUsuario(idUsuarioEliminar);
+                                        System.out.println("Usuario con id " + idUsuarioEliminar + " eliminado exitosamente.");
                                         break;
                                     case 5:
                                         // Listar usuarios
+                                        System.out.println("Listar Usuarios");
+                                        usuC.listarUsuarios();
                                         break;
                                     case 6:
                                         // Buscar usuario por ID
+                                        System.out.print("ID de usuario a buscar: ");
+                                        Integer buscarUsuario = sc.nextInt();
+                                        //invocar el metodo de buscar usuario por ID
+                                        if (!usu.buscarUsuariosxid(buscarUsuario).isEmpty()){
+                                            //recorrer la lista que devolvio el metodo buscarUsuariosxid
+                                            usu.buscarUsuariosxid(buscarUsuario).forEach(usuarios ->
+                                                    System.out.println(usuarios.getIdusuario() + "-" + usuarios.getNombre() + "-" + usuarios.getTelefono() + "-" + usuarios.getDireccion() + "-" +
+                                                            usuarios.getCorreo()));
+                                        }else{
+                                            System.out.println("numero de ID INEXISTENTE. intentelo con otra ID");
+                                        }
                                         break;
                                     case 7:
                                         System.out.println("Volviendo al menú principal...");
@@ -292,21 +351,113 @@ public class Main {
                                 switch (opcionFac) {
                                     case 1:
                                         // Agregar factura
+                                        System.out.print("Ingrese ID del pago: ");
+                                        int facT = 0; // Inicializar a 0 para el caso de error
+                                        try { // Manejo de InputMismatchException para facT
+                                            facT = sc.nextInt();
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Error: Ingrese un número válido para el ID del pago.");
+                                            sc.nextLine(); // Consumir la entrada incorrecta
+                                            break; // Salir de este caso y volver al menú de pago
+                                        }
+                                        System.out.print("Ingrese nombre del servicio: ");
+                                        String nombreserviciofactura = sc.nextLine();
+                                        System.out.print("Ingrese ID del usuario: ");
+                                        String idusuariofactura = sc.nextLine();
+                                        LocalDate pfecha = null; // Inicializar fecha como null
+                                        boolean fechaValida = false;
+                                        while (!fechaValida) {
+                                            System.out.print("Ingrese fecha (yyyy-MM-dd): ");
+                                            String fechaStr = sc.nextLine(); // Leer como String
+                                            try {
+                                                pfecha = LocalDate.parse(fechaStr); // Intentar parsear
+                                                fechaValida = true; // Si llega aquí, es válido
+                                            } catch (DateTimeParseException e) {
+                                                System.out.println("Formato de fecha incorrecto. Por favor, ingrese la fecha en formato YYYY-MM-DD (ej. 2024-05-28).");// El bucle seguirá pidiendo la fecha
+                                            }
+                                        }
+                                        System.out.print("Ingrese valor del pago: ");
+                                        int pvalor = 0; // Inicializar a 0 para el caso de error
+                                        try { // Manejo de InputMismatchException para pvalor
+                                            pvalor = sc.nextInt();
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Error: Ingrese un número válido para el valor del pago.");
+                                            sc.nextLine(); // Consumir la entrada incorrecta
+                                            break; // Salir de este caso y volver al menú de pago
+                                        }
+                                        facturas pagoNuevo = new facturas();
+                                        facC.agregarPago(pagoNuevo);
+                                        System.out.println("✔ Pago agregado correctamente.");
                                         break;
                                     case 2:
                                         // Consultar factura
+                                        System.out.println("Consultar Factura");
+                                        System.out.println("Ingrese la ID de la factura a consultar:");
+                                        int idFacturaConsulta = sc.nextInt();
+                                        // Invocar el metodo para consultar la factura
+                                        facC.consultarPago(idFacturaConsulta);
                                         break;
                                     case 3:
                                         // Actualizar factura
+                                        System.out.println("Actualizar Factura");
+                                        System.out.println("Ingrese la ID de la factura a actualizar:");
+                                        int idFacturaActualizar = sc.nextInt();
+                                        System.out.println("Ingrese el nuevo nombre del servicio:");
+                                        String nuevoNombreServicioFactura = sc.nextLine();
+                                        System.out.println("Ingrese el nuevo ID del usuario:");
+                                        Integer nuevoIdUsuarioFactura = sc.nextInt();
+                                        LocalDate nuevaFechaFactura = null; // Inicializar fecha como null
+                                        boolean fechaValidaFactura = false;
+                                        while (!fechaValidaFactura) {
+                                            System.out.print("Ingrese la nueva fecha (yyyy-MM-dd): ");
+                                            String fechaStrFactura = sc.nextLine(); // Leer como String
+                                            try {
+                                                nuevaFechaFactura = LocalDate.parse(fechaStrFactura); // Intentar parsear
+                                                fechaValidaFactura = true; // Si llega aquí, es válido
+                                            } catch (DateTimeParseException e) {
+                                                System.out.println("Formato de fecha incorrecto. Por favor, ingrese la fecha en formato YYYY-MM-DD (ej. 2024-05-28).");// El bucle seguirá pidiendo la fecha
+                                            }
+                                        }
+                                        System.out.println("Ingrese el nuevo valor del pago:");
+                                        int nuevoValorFactura = 0; // Inicializar a 0 para el caso de error
+                                        try { // Manejo de InputMismatchException para nuevoValorFactura
+                                            nuevoValorFactura = sc.nextInt();
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Error: Ingrese un número válido para el nuevo valor del pago.");
+                                            sc.nextLine(); // Consumir la entrada incorrecta
+                                            break; // Salir de este caso y volver al menú de pago
+                                        }
+                                        facturas facturaActualizada = new facturas(idFacturaActualizar, nuevoNombreServicioFactura, nuevoIdUsuarioFactura, nuevaFechaFactura, nuevoValorFactura);
+                                        facC.actualizarPago(facturaActualizada);
+                                        System.out.println("Factura " + idFacturaActualizar + " actualizada exitosamente.");
                                         break;
                                     case 4:
                                         // Eliminar factura
+                                        System.out.println("Eliminar Factura");
+                                        System.out.println("Ingrese la ID de la factura a eliminar:");
+                                        int idFacturaEliminar = sc.nextInt();
+                                        // Invocar el metodo para eliminar la factura
+                                        facC.eliminarPago(idFacturaEliminar);
+                                        System.out.println("Factura con ID " + idFacturaEliminar + " eliminada exitosamente.");
                                         break;
                                     case 5:
                                         // Listar facturas
+                                        System.out.println("Listar Facturas");
+                                        facC.listarPagos();
                                         break;
                                     case 6:
                                         // Buscar factura por ID
+                                        System.out.print("ID de factura a buscar: ");
+                                        Integer buscarFactura = sc.nextInt();
+                                        //invocar el metodo de buscar factura por nro
+                                        if (!facC.buscarFacturasxid(buscarFactura).isEmpty()) {
+                                            //recorrer la lista que devolvio el metodo buscarFacturasxid
+                                            facC.buscarFacturasxid(buscarFactura).forEach(facturas ->
+                                                    System.out.println(facturas.getNrofactura() + "-" + facturas.getNombreser() + "-" + facturas.getIdusuario() + "-" +
+                                                            facturas.getFecha() + "-" + facturas.getValor()));
+                                        }else {
+                                            System.out.println("Número de factura INEXISTENTE. Inténtelo con otro numero de factura.");
+                                        }
                                         break;
                                     case 7:
                                         System.out.println("Volviendo al menú principal...");
@@ -336,21 +487,113 @@ public class Main {
                                 switch (opcionVen) {
                                     case 1:
                                         // Agregar venta
+                                        System.out.print("Ingrese ID de la venta: ");
+                                        int venT = 0; // Inicializar a 0 para el caso de error
+                                        try { // Manejo de InputMismatchException para facT
+                                            venT = sc.nextInt();
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Error: Ingrese un número válido para el ID de la venta.");
+                                            sc.nextLine(); // Consumir la entrada incorrecta
+                                            break; // Salir de este caso y volver al menú de pago
+                                        }
+                                        LocalDate vfecha = null; // Inicializar fecha como null
+                                        boolean fechaValida = false;
+                                        while (!fechaValida) {
+                                            System.out.print("Ingrese fecha (yyyy-MM-dd): ");
+                                            String fechaStr = sc.nextLine(); // Leer como String
+                                            try {
+                                                vfecha = LocalDate.parse(fechaStr); // Intentar parsear
+                                                fechaValida = true; // Si llega aquí, es válido
+                                            } catch (DateTimeParseException e) {
+                                                System.out.println("Formato de fecha incorrecto. Por favor, ingrese la fecha en formato YYYY-MM-DD (ej. 2024-05-28).");// El bucle seguirá pidiendo la fecha
+                                            }
+                                        }
+                                        System.out.print("Ingrese el monto total: ");
+                                        int vvalor = 0; // Inicializar a 0 para el caso de error
+                                        try { // Manejo de InputMismatchException para vvalor
+                                            vvalor = sc.nextInt();
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Error: Ingrese un número válido para el valor del monto total.");
+                                            sc.nextLine(); // Consumir la entrada incorrecta
+                                            break; // Salir de este caso y volver al menú de pago
+                                        }
+                                        System.out.print("Ingrese nombre del servicio: ");
+                                        String nombreserviciofactura = sc.nextLine();
+                                        System.out.print("Ingrese ID del usuario: ");
+                                        String idusuariofactura = sc.nextLine();
+                                        ventas ventaNueva = new ventas();
+                                        venC.agregarVenta(ventaNueva);
+                                        System.out.println("✔ Pago agregado correctamente.");
                                         break;
                                     case 2:
                                         // Consultar venta
+                                        System.out.println("Consultar Venta");
+                                        System.out.println("Ingrese la ID de la venta a consultar:");
+                                        int idVentaConsulta = sc.nextInt();
+                                        // Invocar el metodo para consultar la venta
+                                        venC.consultarVenta(idVentaConsulta);
                                         break;
                                     case 3:
                                         // Actualizar venta
+                                        System.out.println("Actualizar venta");
+                                        System.out.println("Ingrese la ID de la venta a actualizar:");
+                                        int idVentaActualizar = sc.nextInt();
+                                        LocalDate nuevaFechaVenta = null; // Inicializar fecha como null
+                                        boolean fechaValidaVenta = false;
+                                        while (!fechaValidaVenta) {
+                                            System.out.print("Ingrese la nueva fecha (yyyy-MM-dd): ");
+                                            String fechaStrFactura = sc.nextLine(); // Leer como String
+                                            try {
+                                                nuevaFechaVenta = LocalDate.parse(fechaStrFactura); // Intentar parsear
+                                                fechaValidaVenta = true; // Si llega aquí, es válido
+                                            } catch (DateTimeParseException e) {
+                                                System.out.println("Formato de fecha incorrecto. Por favor, ingrese la fecha en formato YYYY-MM-DD (ej. 2024-05-28).");// El bucle seguirá pidiendo la fecha
+                                            }
+                                        }
+                                        System.out.println("Ingrese el nuevo valor del monto total:");
+                                        int nuevoValorVenta = 0; // Inicializar a 0 para el caso de error
+                                        try { // Manejo de InputMismatchException para nuevoValorVenta
+                                            nuevoValorVenta = sc.nextInt();
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Error: Ingrese un número válido para el nuevo valor del monto total.");
+                                            sc.nextLine(); // Consumir la entrada incorrecta
+                                            break; // Salir de este caso y volver al menú de pago
+                                        }
+                                        System.out.println("Ingrese el nuevo estado del servicio:");
+                                        String nuevoEstadoVenta = sc.nextLine();
+                                        System.out.println("Ingrese el nuevo canal de venta:");
+                                        String nuevoCanalVenta = sc.nextLine();
+                                        ventas ventaActualizada = new ventas();
+                                        venC.actualizarVenta(ventaActualizada);
+                                        System.out.println("venta " + idVentaActualizar + " actualizada exitosamente.");
                                         break;
                                     case 4:
                                         // Eliminar venta
+                                        System.out.println("Eliminar Venta");
+                                        System.out.println("Ingrese la ID de la venta a eliminar:");
+                                        int idVentaEliminar = sc.nextInt();
+                                        // Invocar el metodo para eliminar la venta
+                                        venC.eliminarVenta(idVentaEliminar);
+                                        System.out.println("Venta con ID " + idVentaEliminar + " eliminada exitosamente.");
                                         break;
                                     case 5:
                                         // Listar ventas
+                                        System.out.println("Listar Ventas");
+                                        venC.listarVentas();
                                         break;
                                     case 6:
                                         // Buscar venta por ID
+                                        System.out.print("ID de venta a buscar: ");
+                                        Integer buscarVenta = sc.nextInt();
+                                        //invocar el metodo de buscar venta por ID
+                                        if (!venC.buscarVentasxid(buscarVenta).isEmpty()) {
+                                            //recorrer la lista que devolvio el metodo buscarVentasxid
+                                            venC.buscarVentasxid(buscarVenta).forEach(ventas ->
+                                                    System.out.println(ventas.getIdventa() + "-" + ventas.getFechaventa() + "-" + ventas.getMontototal() + "-" +
+                                                            ventas.getEstado() + "-" + ventas.getCanaldeventa()));
+                                        } else {
+                                            System.out.println("Número de venta INEXISTENTE. Inténtelo con otro numero de venta.");
+                                        }
                                         break;
                                     case 7:
                                         System.out.println("Volviendo al menú principal...");

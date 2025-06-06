@@ -1,7 +1,7 @@
 package org.example.modelo;
 
 public class usuarios {
-    private String idusuario;
+    private Integer idusuario;
     private String nombre;
     private String telefono;
     private String direccion;
@@ -10,7 +10,7 @@ public class usuarios {
     public usuarios() {
     }
 
-    public usuarios(String idusuario, String nombre, String telefono, String direccion, String correo) {
+    public usuarios(Integer idusuario, String nombre, String telefono, String direccion, String correo) {
         this.idusuario = idusuario;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -18,11 +18,11 @@ public class usuarios {
         this.correo = correo;
     }
 
-    public String getIdusuario() {
+    public Integer getIdusuario() {
         return idusuario;
     }
 
-    public void setIdusuario(String idusuario) {
+    public void setIdusuario(Integer idusuario) {
         this.idusuario = idusuario;
     }
 

@@ -1,8 +1,12 @@
 package org.example.datos;
 
+import org.example.modelo.ventas;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ventasCrud {
     //credenciales para tener acceso a mysql y la BD dbparquea
@@ -83,7 +87,7 @@ public class ventasCrud {
     }
 
     // Listar todas las ventas
-    public void listarTodasVentas() {
+    public void listarVentas() {
         String sql = "SELECT * FROM ventas";
 
         try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
@@ -102,10 +106,13 @@ public class ventasCrud {
     }
 
     // Listar ventas por id
-    public void listarVentasPorId(Integer idventa) {
-        String sql = "SELECT * FROM ventas WHERE idventa = ?";
+    public List<ventas> buscarVentasxid(int idventa) {
+        List<ventas> lbuscarventas = new ArrayList<>();
+        //declara una loista para ser trtornada y contendra
+        String query = "SELECT nroplaca, marca, precio FROM ventas WHERE idventa = ?";
 
-        try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
+
+        try (Connection conn = conectar(); var stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, idventa);
             var rs = stmt.executeQuery();
             if (rs.next()) {
@@ -120,5 +127,6 @@ public class ventasCrud {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return lbuscarventas;
     }
 }

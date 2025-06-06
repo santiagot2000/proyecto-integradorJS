@@ -1,8 +1,13 @@
 package org.example.datos;
 
+import org.example.modelo.servicio;
+import org.example.modelo.usuarios;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class usuariosCrud {
     //credenciales para tener acceso a mysql y la BD dbparquea
@@ -20,7 +25,7 @@ public class usuariosCrud {
         String sql = "INSERT INTO usuarios (idusuario, nombre, telefono, direccion, correo) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, usuario.getIdusuario());
+            stmt.setInt(1, usuario.getIdusuario());
             stmt.setString(2, usuario.getNombre());
             stmt.setString(3, usuario.getTelefono());
             stmt.setString(4, usuario.getDireccion());
@@ -62,7 +67,7 @@ public class usuariosCrud {
             stmt.setString(2, usuario.getTelefono());
             stmt.setString(3, usuario.getDireccion());
             stmt.setString(4, usuario.getCorreo());
-            stmt.setString(5, usuario.getIdusuario());
+            stmt.setInt(5, usuario.getIdusuario());
             stmt.executeUpdate(); // Actualiza el usuario
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +87,7 @@ public class usuariosCrud {
     }
 
     // Listar usuarios
-    public void listarTodosUsuarios() {
+    public void listarUsuarios() {
         String sql = "SELECT * FROM usuarios";
 
         try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
@@ -100,12 +105,14 @@ public class usuariosCrud {
         }
     }
 
-    // Listar usuarios por id
-    public void listarUsuariosPorId(String idusuario) {
-        String sql = "SELECT * FROM usuarios WHERE idusuario = ?";
+    // Buscar usuarios por id
+    public List<usuarios> buscarUsuariosxid(Integer idusuario) {
+        List<usuarios> lbuscarusuarios = new ArrayList<>();
+        //declara una loista para ser trtornada y contendra
+        String query = "SELECT idservicio, nombreser, observaciones, precio, duracion FROM servicio WHERE idservicio = ?";
 
-        try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, idusuario);
+        try (Connection conn = conectar(); var stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idusuario);
             var rs = stmt.executeQuery();
             if (rs.next()) {
                 System.out.println("ID Usuario: " + rs.getString("idusuario"));
@@ -119,5 +126,6 @@ public class usuariosCrud {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return lbuscarusuarios;
     }
 }

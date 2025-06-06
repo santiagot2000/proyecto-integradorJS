@@ -5,17 +5,17 @@ import java.time.LocalDate;
 public class facturas {
     private Integer nrofactura;
     private String nombreser;
-    private String idpusuario;
+    private Integer idusuario;
     private LocalDate fecha;
     private Integer valor;
 
     public facturas() {
     }
 
-    public facturas(Integer nrofactura, String nombreser, String idpusuario, LocalDate fecha, Integer valor) {
+    public facturas(Integer nrofactura, String nombreser, Integer idusuario, LocalDate fecha, Integer valor) {
         this.nrofactura = nrofactura;
         this.nombreser = nombreser;
-        this.idpusuario = idpusuario;
+        this.idusuario = idusuario;
         this.fecha = fecha;
         this.valor = valor;
     }
@@ -36,12 +36,12 @@ public class facturas {
         this.nombreser = nombreser;
     }
 
-    public String getIdpusuario() {
-        return idpusuario;
+    public Integer getIdusuario() {
+        return idusuario;
     }
 
-    public void setIdpusuario(String idpusuario) {
-        this.idpusuario = idpusuario;
+    public void setIdusuario(Integer idpusuario) {
+        this.idusuario = idpusuario;
     }
 
     public LocalDate getFecha() {

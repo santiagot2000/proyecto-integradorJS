@@ -1,11 +1,14 @@
 package org.example.datos;
 
 import org.example.modelo.facturas;
+import org.example.modelo.servicio;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class facturasCrud {
     //credenciales para tener acceso a mysql y la BD dbparquea
@@ -26,7 +29,7 @@ public class facturasCrud {
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, facturas.getNrofactura());
             stmt.setString(2, facturas.getNombreser());
-            stmt.setString(3, facturas.getIdpusuario());
+            stmt.setInt(3, facturas.getIdusuario());
             stmt.setDate(4, java.sql.Date.valueOf(facturas.getFecha()));
             stmt.setInt(5, facturas.getValor());
             stmt.executeUpdate();// Agregar pago
@@ -46,7 +49,7 @@ public class facturasCrud {
                 System.out.println("Pago encontrado:");
                 System.out.println("Nro Factura: " + rs.getInt("nrofactura"));
                 System.out.println("Nombre Servicio: " + rs.getString("nombreser"));
-                System.out.println("ID Usuario: " + rs.getString("idpusuario"));
+                System.out.println("ID Usuario: " + rs.getString("idusuario"));
                 System.out.println("Fecha: " + rs.getDate("fecha"));
                 System.out.println("Valor: " + rs.getInt("valor"));
             } else {
@@ -58,11 +61,11 @@ public class facturasCrud {
     }
     // Actualizar pago
     public void actualizarPago(facturas facturas) {
-        String sql = "UPDATE pago SET nombreser = ?, idpusuario = ?, fecha = ?, valor = ? WHERE nrofactura = ?";
+        String sql = "UPDATE pago SET nombreser = ?, idusuario = ?, fecha = ?, valor = ? WHERE nrofactura = ?";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, facturas.getNombreser());
-            stmt.setString(2, facturas.getIdpusuario());
+            stmt.setInt(2, facturas.getIdusuario());
             stmt.setDate(3, java.sql.Date.valueOf(facturas.getFecha()));
             stmt.setInt(4, facturas.getValor());
             stmt.setInt(5, facturas.getNrofactura());
@@ -103,7 +106,7 @@ public class facturasCrud {
             while (rs.next()) {
                 System.out.println("Nro Factura: " + rs.getInt("nrofactura"));
                 System.out.println("Nombre Servicio: " + rs.getString("nombreser"));
-                System.out.println("ID Usuario: " + rs.getString("idpusuario"));
+                System.out.println("ID Usuario: " + rs.getString("idusuario"));
                 System.out.println("Fecha: " + rs.getDate("fecha"));
                 System.out.println("Valor: " + rs.getInt("valor"));
                 System.out.println("-----------------------------");
@@ -114,16 +117,18 @@ public class facturasCrud {
     }
 
     // Buscar pago por ID
-    public void buscarPagoPorId(int nrofactura) {
-        String sql = "SELECT * FROM pago WHERE nrofactura = ?";
+    public List<facturas> buscarFacturasxid(Integer nrofactura) {
+        List<facturas> lbuscarfacturas = new ArrayList<>();
+        //declara una loista para ser trtornada y contendra
+        String query = "SELECT nrofactura, nombreser, idusuario, fecha, valor FROM facturas WHERE nrofactura = ?";
 
-        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, nrofactura);
             var rs = stmt.executeQuery();
             if (rs.next()) {
                 System.out.println("Nro Factura: " + rs.getInt("nrofactura"));
                 System.out.println("Nombre Servicio: " + rs.getString("nombreser"));
-                System.out.println("ID Usuario: " + rs.getString("idpusuario"));
+                System.out.println("ID Usuario: " + rs.getString("idusuario"));
                 System.out.println("Fecha: " + rs.getDate("fecha"));
                 System.out.println("Valor: " + rs.getInt("valor"));
             } else {
@@ -132,5 +137,6 @@ public class facturasCrud {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return lbuscarfacturas;
     }
 }
