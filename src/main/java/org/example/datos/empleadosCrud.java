@@ -1,0 +1,107 @@
+package org.example.datos;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class empleadosCrud {
+    //credenciales para tener acceso a mysql y la BD dbparquea
+    private final String url = "jdbc:mysql://localhost:3306/dbintegrador";
+    private final String user = "root";
+    private final String password = "";
+
+    // Metodo para realizar la conecceion a la base de datos
+    public Connection conectar() throws SQLException {
+        return DriverManager.getConnection(url, user, password);
+    }
+
+    // Metodos para el CRUD de empleados
+    // Agregar empleado
+    public void agregarEmpleado(org.example.modelo.empleados empleado) {
+        String sql = "INSERT INTO empleados (idEmpleado, nombre, telefono, correo, direccion, fechaIngreso) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, empleado.getIdEmpleado());
+            stmt.setString(2, empleado.getNombre());
+            stmt.setString(3, empleado.getTelefono());
+            stmt.setString(4, empleado.getCorreo());
+            stmt.setString(5, empleado.getDireccion());
+            stmt.setString(6, empleado.getFechaIngreso());
+            stmt.executeUpdate(); // Agrega el empleado
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Consultar empleado
+    public void consultarEmpleado(String idEmpleado) {
+        String sql = "SELECT * FROM empleados WHERE idEmpleado = ?";
+
+        try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idEmpleado);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                System.out.println("Empleado encontrado:");
+                System.out.println("ID Empleado: " + rs.getString("idEmpleado"));
+                System.out.println("Nombre: " + rs.getString("nombre"));
+                System.out.println("Telefono: " + rs.getString("telefono"));
+                System.out.println("Correo: " + rs.getString("correo"));
+                System.out.println("Direccion: " + rs.getString("direccion"));
+                System.out.println("Fecha Ingreso: " + rs.getString("fechaIngreso"));
+            } else {
+                System.out.println("Empleado no encontrado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Actualizar empleado
+    public void actualizarEmpleado(org.example.modelo.empleados empleado) {
+        String sql = "UPDATE empleados SET nombre = ?, telefono = ?, correo = ?, direccion = ?, fechaIngreso = ? WHERE idEmpleado = ?";
+
+        try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, empleado.getNombre());
+            stmt.setString(2, empleado.getTelefono());
+            stmt.setString(3, empleado.getCorreo());
+            stmt.setString(4, empleado.getDireccion());
+            stmt.setString(5, empleado.getFechaIngreso());
+            stmt.setString(6, empleado.getIdEmpleado());
+            stmt.executeUpdate(); // Actualiza el empleado
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Eliminar empleado
+    public void eliminarEmpleado(String idEmpleado) {
+        String sql = "DELETE FROM empleados WHERE idEmpleado = ?";
+
+        try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idEmpleado);
+            stmt.executeUpdate(); // Elimina el empleado
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Consultar todos los empleados
+    public void consultarTodosEmpleados() {
+        String sql = "SELECT * FROM empleados";
+
+        try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                System.out.println("ID Empleado: " + rs.getString("idEmpleado"));
+                System.out.println("Nombre: " + rs.getString("nombre"));
+                System.out.println("Telefono: " + rs.getString("telefono"));
+                System.out.println("Correo: " + rs.getString("correo"));
+                System.out.println("Direccion: " + rs.getString("direccion"));
+                System.out.println("Fecha Ingreso: " + rs.getString("fechaIngreso"));
+                System.out.println("-----------------------------");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
