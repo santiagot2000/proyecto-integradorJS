@@ -82,8 +82,8 @@ public class ventasCrud {
         }
     }
 
-    // Consultar todas las ventas
-    public void consultarTodasVentas() {
+    // Listar todas las ventas
+    public void listarTodasVentas() {
         String sql = "SELECT * FROM ventas";
 
         try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
@@ -95,6 +95,27 @@ public class ventasCrud {
                 System.out.println("Estado: " + rs.getString("estado"));
                 System.out.println("Canal de Venta: " + rs.getString("canaldeventa"));
                 System.out.println("-----------------------------");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Listar ventas por id
+    public void listarVentasPorId(Integer idventa) {
+        String sql = "SELECT * FROM ventas WHERE idventa = ?";
+
+        try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idventa);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                System.out.println("ID Venta: " + rs.getInt("idventa"));
+                System.out.println("Fecha Venta: " + rs.getDate("fechaventa"));
+                System.out.println("Monto Total: " + rs.getInt("montototal"));
+                System.out.println("Estado: " + rs.getString("estado"));
+                System.out.println("Canal de Venta: " + rs.getString("canaldeventa"));
+            } else {
+                System.out.println("Venta no encontrada.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

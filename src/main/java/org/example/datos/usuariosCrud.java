@@ -81,8 +81,8 @@ public class usuariosCrud {
         }
     }
 
-    // Consultar todos los usuarios
-    public void consultarTodosUsuarios() {
+    // Listar usuarios
+    public void listarTodosUsuarios() {
         String sql = "SELECT * FROM usuarios";
 
         try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
@@ -94,6 +94,27 @@ public class usuariosCrud {
                 System.out.println("Direccion: " + rs.getString("direccion"));
                 System.out.println("Correo: " + rs.getString("correo"));
                 System.out.println("-----------------------------");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Listar usuarios por id
+    public void listarUsuariosPorId(String idusuario) {
+        String sql = "SELECT * FROM usuarios WHERE idusuario = ?";
+
+        try (Connection conn = conectar(); var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idusuario);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                System.out.println("ID Usuario: " + rs.getString("idusuario"));
+                System.out.println("Nombre: " + rs.getString("nombre"));
+                System.out.println("Telefono: " + rs.getString("telefono"));
+                System.out.println("Direccion: " + rs.getString("direccion"));
+                System.out.println("Correo: " + rs.getString("correo"));
+            } else {
+                System.out.println("Usuario no encontrado.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

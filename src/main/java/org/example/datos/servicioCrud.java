@@ -79,7 +79,7 @@ public class servicioCrud {
     }
 
     // Listar servicios
-    public List<servicio> listarVehiculos() {
+    public List<servicio> listarServicios() {
         List<servicio> buscarServicio = new ArrayList<servicio>();
         String query = "SELECT * FROM servicio";
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(query)) {

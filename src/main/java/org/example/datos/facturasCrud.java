@@ -56,6 +56,26 @@ public class facturasCrud {
             e.printStackTrace();
         }
     }
+    // Actualizar pago
+    public void actualizarPago(facturas facturas) {
+        String sql = "UPDATE pago SET nombreser = ?, idpusuario = ?, fecha = ?, valor = ? WHERE nrofactura = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, facturas.getNombreser());
+            stmt.setString(2, facturas.getIdpusuario());
+            stmt.setDate(3, java.sql.Date.valueOf(facturas.getFecha()));
+            stmt.setInt(4, facturas.getValor());
+            stmt.setInt(5, facturas.getNrofactura());
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Pago actualizado exitosamente.");
+            } else {
+                System.out.println("Pago no encontrado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     // Eliminar pago
     public void eliminarPago(int nrofactura) {
@@ -87,6 +107,27 @@ public class facturasCrud {
                 System.out.println("Fecha: " + rs.getDate("fecha"));
                 System.out.println("Valor: " + rs.getInt("valor"));
                 System.out.println("-----------------------------");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Buscar pago por ID
+    public void buscarPagoPorId(int nrofactura) {
+        String sql = "SELECT * FROM pago WHERE nrofactura = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, nrofactura);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                System.out.println("Nro Factura: " + rs.getInt("nrofactura"));
+                System.out.println("Nombre Servicio: " + rs.getString("nombreser"));
+                System.out.println("ID Usuario: " + rs.getString("idpusuario"));
+                System.out.println("Fecha: " + rs.getDate("fecha"));
+                System.out.println("Valor: " + rs.getInt("valor"));
+            } else {
+                System.out.println("Pago no encontrado.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

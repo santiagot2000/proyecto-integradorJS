@@ -1,7 +1,7 @@
 package org.example.modelo;
 
 public class empleados {
-    private String idEmpleado;
+    private Integer idEmpleado;
     private String nombre;
     private String telefono;
     private String correo;
@@ -12,7 +12,7 @@ public class empleados {
 
     }
 
-    public empleados(String idEmpleado, String nombre, String telefono, String correo, String direccion, String fechaIngreso) {
+    public empleados(Integer idEmpleado, String nombre, String telefono, String correo, String direccion, String fechaIngreso) {
         this.idEmpleado = idEmpleado;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -21,11 +21,11 @@ public class empleados {
         this.fechaIngreso = fechaIngreso;
     }
 
-    public String getIdEmpleado() {
+    public Integer getIdEmpleado() {
         return idEmpleado;
     }
 
-    public void setIdEmpleado(String idEmpleado) {
+    public void setIdEmpleado(Integer idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
 
