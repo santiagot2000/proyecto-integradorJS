@@ -9,12 +9,12 @@ import java.util.List;
 
 public class empleadosCrud {
     //credenciales para tener acceso a mysql y la BD dbparquea
-    private final String url = "jdbc:mysql://localhost:3306/dbintegrador";
+    private final String url = "jdbc:mysql://localhost:3306/db_integrador?serverTimezone=UTC&useSSL=false";
     private final String user = "root";
     private final String password = "";
 
-    // Metodo para realizar la conecceion a la base de datos
-    public Connection conectar() throws SQLException {
+    // Metodo para conectar a la base de datos
+    public Connection conectar()throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 
@@ -52,7 +52,7 @@ public class empleadosCrud {
                 System.out.println("Direccion: " + rs.getString("direccion"));
                 System.out.println("Fecha Ingreso: " + rs.getString("fechaIngreso"));
             } else {
-                System.out.println("Empleado no encontrado.");
+                System.out.println("Empleado no encontrado, numero de ID INEXISTENTE. intentelo con otra ID");
             }
         } catch (SQLException e) {
             e.printStackTrace();

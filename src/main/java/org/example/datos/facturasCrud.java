@@ -12,19 +12,19 @@ import java.util.List;
 
 public class facturasCrud {
     //credenciales para tener acceso a mysql y la BD dbparquea
-    private final String url = "jdbc:mysql://localhost:3306/dbintegrador";
+    private final String url = "jdbc:mysql://localhost:3306/db_integrador?serverTimezone=UTC&useSSL=false";
     private final String user = "root";
     private final String password = "";
 
-    // Metodo para realizar la conecceion a la base de datos
-    public Connection conectar() throws SQLException {
+    // Metodo para conectar a la base de datos
+    public Connection conectar()throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 
     // Metodos para el CRUD de facturas
     // Agregar pago
     public void agregarPago(facturas facturas) {
-        String sql = "INSERT INTO pago (id, nroplaca, idprop, fecha, valor) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO facturas (nrofactura, nombreser, idusuario, fecha, valor) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, facturas.getNrofactura());
@@ -40,7 +40,7 @@ public class facturasCrud {
 
     //consultar pago
     public void consultarPago(int nrofactura) {
-        String sql = "SELECT * FROM pago WHERE nrofactura = ?";
+        String sql = "SELECT * FROM fcaturas WHERE nrofactura = ?";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, nrofactura);
@@ -53,7 +53,7 @@ public class facturasCrud {
                 System.out.println("Fecha: " + rs.getDate("fecha"));
                 System.out.println("Valor: " + rs.getInt("valor"));
             } else {
-                System.out.println("Pago no encontrado.");
+                System.out.println("Pago no encontrado, numero de ID INEXISTENTE. intentelo con otra ID");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +82,7 @@ public class facturasCrud {
 
     // Eliminar pago
     public void eliminarPago(int nrofactura) {
-        String sql = "DELETE FROM pago WHERE nrofactura = ?";
+        String sql = "DELETE FROM facturas WHERE nrofactura = ?";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, nrofactura);
@@ -99,7 +99,7 @@ public class facturasCrud {
 
     // listar pagos
     public void listarPagos() {
-        String sql = "SELECT * FROM pago";
+        String sql = "SELECT * FROM facturas";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             var rs = stmt.executeQuery();

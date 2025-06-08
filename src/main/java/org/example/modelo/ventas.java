@@ -4,18 +4,18 @@ import java.time.LocalDate;
 
 public class ventas {
     private Integer idventa;
-    private LocalDate fechaventa;
-    private Integer montototal;
+    private LocalDate fecha;
+    private Integer valor;
     private String estado;
     private String canaldeventa;
 
     public ventas() {
     }
 
-    public ventas(Integer idventa, LocalDate fechaventa, Integer montototal, String estado, String canaldeventa) {
+    public ventas(Integer idventa, LocalDate fecha, Integer valor, String estado, String canaldeventa) {
         this.idventa = idventa;
-        this.fechaventa = fechaventa;
-        this.montototal = montototal;
+        this.fecha = fecha;
+        this.valor = valor;
         this.estado = estado;
         this.canaldeventa = canaldeventa;
     }
@@ -28,20 +28,20 @@ public class ventas {
         this.idventa = idventa;
     }
 
-    public LocalDate getFechaventa() {
-        return fechaventa;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public void setFechaventa(LocalDate fechaventa) {
-        this.fechaventa = fechaventa;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
-    public Integer getMontototal() {
-        return montototal;
+    public Integer getValor() {
+        return valor;
     }
 
-    public void setMontototal(Integer montototal) {
-        this.montototal = montototal;
+    public void setValor(Integer valor) {
+        this.valor = valor;
     }
 
     public String getEstado() {
