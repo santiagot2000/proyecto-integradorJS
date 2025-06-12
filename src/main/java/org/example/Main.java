@@ -62,7 +62,7 @@ public class Main {
                             String duracion = sc.nextLine();
                             // Invocar el metodo para agregar el servicio
                             ser.agregarServicio(new servicio(identServicio, nombreServicio, observaciones, precio, duracion));
-                            System.out.print("Servicio"+ identServicio + "agregado exitosamente.");
+                            System.out.print("Servicio "+ identServicio + " agregado exitosamente.");
                             break;
                         case 2:
                             // Consultar servicio
@@ -102,7 +102,7 @@ public class Main {
                             Integer idServicioEliminar = sc.nextInt();
                             // Invocar el metodo para eliminar el servicio
                             ser.eliminarServicio(idServicioEliminar);
-                            System.out.println("Servicio de " + idServicioEliminar +  "eliminado exitosamente.");
+                            System.out.println("Servicio de id " + idServicioEliminar +  " eliminado exitosamente.");
                             break;
                         case  5:
                             // listar servicios
